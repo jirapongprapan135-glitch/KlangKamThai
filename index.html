@@ -11,10 +11,9 @@
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-3 sm:p-6">
-    <!-- กล่องหลักขยายเต็มความกว้างหน้าจอคอม (max-w-7xl) -->
     <div class="max-w-7xl mx-auto p-5 sm:p-7 bg-white rounded-2xl shadow-sm border border-slate-200/80">
         
-        <!-- ส่วนหัวและช่องค้นหา (วางคู่กันแนวนอน) -->
+        <!-- ส่วนหัวและช่องค้นหา -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100 mb-5">
             <div class="flex items-center gap-3.5">
                 <div class="h-12 w-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-sm shrink-0">
@@ -22,7 +21,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-slate-900">คลังคำไทยแยกตามหมวดหมู่</h1>
-                    <p class="text-xs sm:text-sm text-slate-500">ค้นหาคำที่ขึ้นต้นด้วยตัวอักษรที่ต้องการ (<span id="categoryCountBadge" class="font-semibold text-indigo-600">19</span> หมวดหมู่ / <span id="totalWordsBadge" class="font-semibold text-indigo-600">0</span> คำ)</p>
+                    <p class="text-xs sm:text-sm text-slate-500">ค้นหาคำที่ขึ้นต้นด้วยตัวอักษรที่ต้องการ (<span id="categoryCountBadge" class="font-semibold text-indigo-600">0</span> หมวดหมู่ / <span id="totalWordsBadge" class="font-semibold text-indigo-600">0</span> คำ)</p>
                 </div>
             </div>
 
@@ -46,7 +45,7 @@
             <span id="resultCount" class="text-xs font-semibold px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full">พิมพ์ตัวอักษรขึ้นต้นเพื่อค้นหา</span>
         </div>
 
-        <!-- ตารางแสดงผลแนวนอน: มือถือ 1 คอลัมน์ | แท็บเล็ต 2 | คอมพิวเตอร์ 3-4 คอลัมน์ -->
+        <!-- ตารางแสดงผลแนวนอน -->
         <div id="resultsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <div class="col-span-full text-center py-16 text-slate-400 text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
                 พิมพ์ตัวอักษรขึ้นต้นในช่องค้นหาด้านบน (เช่น ห, ก, ส, ม) เพื่อแสดงผลลัพธ์เรียงจากซ้ายไปขวา
@@ -55,7 +54,6 @@
     </div>
 
     <script>
-        // ฐานข้อมูลคำศัพท์ขนาดใหญ่ 19 หมวดหมู่ (ครอบคลุมพยัญชนะไทยครบทุกหมวด)
         const categoriesData = [
             {
                 name: "นก",
@@ -135,7 +133,6 @@
             }
         ];
 
-        // นับจำนวนหมวดและคำศัพท์ทั้งหมดในคลัง
         document.getElementById('categoryCountBadge').innerText = categoriesData.length;
         const totalWords = categoriesData.reduce((sum, cat) => sum + cat.words.length, 0);
         document.getElementById('totalWordsBadge').innerText = totalWords.toLocaleString();
@@ -168,22 +165,18 @@
             let htmlContent = '';
 
             categoriesData.forEach(cat => {
-                // 1. คัดกรองเฉพาะคำที่ "ขึ้นต้นด้วย" ตัวอักษรที่พิมพ์เท่านั้น
                 let matchedWords = cat.words.filter(word => word.startsWith(query));
                 
                 if (matchedWords.length > 0) {
                     matchedCategories++;
-                    
-                    // 2. เรียงลำดับให้คำที่ตรงตัวและสั้นกระชับขึ้นก่อน ตามด้วยตัวอักษรไทย
                     matchedWords.sort((a, b) => a.length - b.length || a.localeCompare(b, 'th'));
 
-                    // แสดงสูงสุด 8 คำต่อหมวดเพื่อความกระชับ ไม่บังสายตา
-                    const wordBadges = matchedWords.slice(0, 8).map(w => 
+                    const wordBadges = matchedWords.slice(0, 12).map(w => 
                         `<span class="inline-block px-2.5 py-1 bg-indigo-50/70 hover:bg-indigo-100 text-slate-800 border border-indigo-100 rounded-lg text-xs font-medium transition-colors">${w}</span>`
                     ).join('');
                     
-                    const extraBadge = matchedWords.length > 8 
-                        ? `<span class="inline-block px-2 py-1 text-slate-400 text-xs">+อีก ${matchedWords.length - 8} คำ</span>` 
+                    const extraBadge = matchedWords.length > 12 
+                        ? `<span class="inline-block px-2 py-1 text-slate-400 text-xs">+อีก ${matchedWords.length - 12} คำ</span>` 
                         : '';
 
                     htmlContent += `
