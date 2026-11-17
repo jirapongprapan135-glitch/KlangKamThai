@@ -10,193 +10,42 @@
         body { font-family: 'Sarabun', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen p-4">
-    <div class="max-w-xl mx-auto p-5 bg-white min-h-screen sm:min-h-fit sm:my-8 sm:rounded-2xl sm:shadow-sm border border-slate-100">
-        <!-- Header -->
-        <header class="flex items-center gap-3 mb-6">
-            <div class="h-12 w-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-sm shrink-0">
-                หม
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 sm:p-6">
+    <!-- ขยายความกว้างเป็น max-w-6xl เพื่อแสดงผลแนวนอนเต็มหน้าจอคอม -->
+    <div class="max-w-6xl mx-auto p-6 bg-white min-h-screen sm:min-h-fit sm:my-4 rounded-2xl shadow-sm border border-slate-100">
+        
+        <!-- Top Section: Header & Search Bar จัดวางคู่กันในแนวนอนบนจอคอม -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="h-12 w-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-sm shrink-0">
+                    หม
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">ค้นหาคำศัพท์แยกตามหมวดหมู่</h1>
+                    <p class="text-xs sm:text-sm text-slate-500">พิมพ์ตัวอักษรขึ้นต้นเพื่อค้นหาคำศัพท์ในหมวดต่าง ๆ (<span id="categoryCountBadge" class="font-semibold text-indigo-600">0</span> หมวดหมู่)</p>
+                </div>
             </div>
-            <div>
-                <h1 class="text-xl font-bold text-slate-900">ค้นหาคำศัพท์แยกตามหมวดหมู่</h1>
-                <p class="text-xs sm:text-sm text-slate-500">พิมพ์ตัวอักษรขึ้นต้นเพื่อค้นหาคำศัพท์ในหมวดต่าง ๆ</p>
-            </div>
-        </header>
 
-        <!-- Status Bar -->
-        <div id="statusBar" class="mb-5 p-3 bg-indigo-50 border border-indigo-200/60 rounded-xl flex items-center justify-between text-xs sm:text-sm text-indigo-800">
-            <span id="statusText">พร้อมใช้งานฐานข้อมูลหมวดหมู่</span>
-            <span class="bg-indigo-200/70 px-2.5 py-0.5 rounded-full font-semibold"><span id="categoryCountBadge">0</span> หมวดหมู่</span>
-        </div>
-
-        <!-- Search Box -->
-        <div class="mb-5">
-            <label class="block text-xs font-semibold text-slate-600 mb-1.5">
-                ระบุตัวอักษรขึ้นต้น (เช่น น, ก, ป)
-            </label>
-            <div class="relative">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </span>
-                <input type="text" id="searchInput" maxlength="50" placeholder="พิมพ์ตัวอักษรขึ้นต้นเพื่อค้นหา..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                <button id="clearBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+            <!-- Search Box -->
+            <div class="w-full md:w-96">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input type="text" id="searchInput" maxlength="50" placeholder="พิมพ์ตัวอักษรขึ้นต้น (เช่น น, ก, ป)..." class="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                    <button id="clearBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Results Header -->
-        <div class="flex justify-between items-center pb-2 border-b border-slate-100 mb-4">
-            <span class="text-xs font-semibold text-slate-600">ผลการค้นหาแยกตามหมวดหมู่</span>
-            <span id="resultCount" class="text-xs text-slate-400">พิมพ์ค้นหาเพื่อเริ่มใช้งาน</span>
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-sm font-semibold text-slate-700">ผลการค้นหาแยกตามหมวดหมู่ (เรียงจากซ้ายไปขวา)</span>
+            <span id="resultCount" class="text-xs font-medium px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full">พิมพ์ค้นหาเพื่อเริ่มใช้งาน</span>
         </div>
 
-        <!-- Results List -->
-        <div id="resultsList" class="space-y-4">
-            <div class="text-center py-12 text-slate-400 text-sm">
-                กรอกตัวอักษรในช่องด้านบนเพื่อดูคำศัพท์ในหมวดหมู่ต่าง ๆ
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const categoriesData = [
-            {
-                name: "นก",
-                words: ["นกกระจอก", "นกอินทรี", "นกแก้ว", "นกพิราบ", "นกฮูก", "นกยาง", "นกเงือก", "นกนางนวล"]
-            },
-            {
-                name: "เมืองทั่วโลก",
-                words: ["กรุงเทพมหานคร", "โตเกียว", "ปารีส", "ลอนดอน", "นิวยอร์ก", "โซล", "ปักกิ่ง", "ซิดนีย์"]
-            },
-            {
-                name: "กีฬา",
-                words: ["ฟุตบอล", "บาสเกตบอล", "วอลเลย์บอล", "แบดมินตัน", "เทนนิส", "ว่ายน้ำ", "วิ่งมาราธอน", "มวยไทย"]
-            },
-            {
-                name: "สี",
-                words: ["สีแดง", "สีน้ำเงิน", "สีเขียว", "สีเหลือง", "สีชมพู", "สีส้ม", "สีม่วง", "สีขาว", "สีดำ"]
-            },
-            {
-                name: "จังหวัด",
-                words: ["เชียงใหม่", "ภูเก็ต", "ชลบุรี", "ขอนแก่น", "อยุธยา", "สงขลา", "นครราชสีมา", "สุราษฎร์ธานี"]
-            },
-            {
-                name: "อาหาร",
-                words: ["ส้มตำ", "ต้มยำกุ้ง", "ผัดไทย", "ข้าวมันไก่", "แกงเขียวหวาน", "ข้าวผัด", "ก๋วยเตี๋ยว"]
-            },
-            {
-                name: "สัตว์น้ำ",
-                words: ["ปลาฉลาม", "ปลาวาฬ", "ปลาโลมา", "กุ้งมังกร", "ปูอัด", "หมึกยักษ์", "ม้าน้ำ", "แมงกะพรุน"]
-            },
-            {
-                name: "เครื่องดนตรี",
-                words: ["กีตาร์", "เปียโน", "ไวโอลิน", "กลองชุด", "ขลุ่ย", "ระนาด", "เบส", "อูคูเลเล่"]
-            },
-            {
-                name: "เครื่องดื่ม",
-                words: ["น้ำอัดลม", "ชานมไข่มุก", "กาแฟดำ", "น้ำส้มคั้น", "นมสด", "โกโก้เย็น", "ชาเขียว"]
-            },
-            {
-                name: "คำกริยา",
-                words: ["วิ่ง", "เดิน", "กิน", "นอน", "กระโดด", "หัวเราะ", "ร้องเพลง", "เขียน", "อ่านหนังสือ"]
-            },
-            {
-                name: "ต้นไม้",
-                words: ["ต้นมะม่วง", "ต้นสัก", "ต้นยางพารา", "ต้นไผ่", "ต้นมะพร้าว", "ต้นกล้วย", "ต้นสน"]
-            },
-            {
-                name: "อวัยวะ",
-                words: ["ดวงตา", "หู", "จมูก", "ปาก", "หัวใจ", "มือ", "เท้า", "สมอง", "ตับ", "ปอด"]
-            },
-            {
-                name: "คำบอกลักษณะ",
-                words: ["อัน", "ตัว", "คน", "เครื่อง", "หลัง", "ผืน", "คัน", "ด้าม", "เล่ม", "แผ่น"]
-            },
-            {
-                name: "ดอกไม้",
-                words: ["ดอกกุหลาบ", "ดอกมะลิ", "ดอกทานตะวัน", "ดอกบัว", "ดอกกล้วยไม้", "ดอกดาวเรือง"]
-            },
-            {
-                name: "อาชีพ",
-                words: ["คุณครู", "คุณหมอ", "วิศวกร", "ตำรวจ", "พยาบาล", "เชฟ", "นักบิน", "โปรแกรมเมอร์"]
-            },
-            {
-                name: "ของใช้ในโรงเรียน",
-                words: ["กระเป๋านักเรียน", "สมุด", "ดินสอ", "ยางลบ", "ไม้บรรทัด", "ปากกา", "สีเทียน", "กรรไกร"]
-            },
-            {
-                name: "ยานพาหนะ",
-                words: ["รถยนต์", "รถจักรยานยนต์", "เครื่องบิน", "รถไฟ", "เรือสำราญ", "รถจักรยาน", "รถตู้"]
-            },
-            {
-                name: "ผัก",
-                words: ["คะน้า", "ผักบุ้ง", "กะหล่ำปลี", "แครอท", "มะเขือเทศ", "แตงกวา", "บล็อกโคลี"]
-            },
-            {
-                name: "วิชาเรียน",
-                words: ["คณิตศาสตร์", "วิทยาศาสตร์", "ภาษาไทย", "ภาษาอังกฤษ", "ประวัติศาสตร์", "ศิลปะ", "คอมพิวเตอร์"]
-            }
-        ];
-
-        document.getElementById('categoryCountBadge').innerText = categoriesData.length;
-
-        const searchInput = document.getElementById('searchInput');
-        const resultsList = document.getElementById('resultsList');
-        const resultCount = document.getElementById('resultCount');
-        const clearBtn = document.getElementById('clearBtn');
-
-        searchInput.addEventListener('input', () => {
-            clearBtn.classList.toggle('hidden', searchInput.value.length === 0);
-            handleSearch();
-        });
-
-        function clearSearch() {
-            searchInput.value = '';
-            clearBtn.classList.add('hidden');
-            handleSearch();
-        }
-
-        function handleSearch() {
-            const query = searchInput.value.trim();
-            if (!query) {
-                resultsList.innerHTML = '<div class="text-center py-12 text-slate-400 text-sm">กรอกตัวอักษรในช่องด้านบนเพื่อดูคำศัพท์ในหมวดหมู่ต่าง ๆ</div>';
-                resultCount.innerText = 'พิมพ์ค้นหาเพื่อเริ่มใช้งาน';
-                return;
-            }
-
-            let matchedCategories = 0;
-            let htmlContent = '';
-
-            categoriesData.forEach(cat => {
-                // เปลี่ยนเงื่อนไขใช้ .startsWith(query) เพื่อให้หาเฉพาะคำที่ขึ้นต้นด้วยตัวอักษรที่พิมพ์
-                const matchedWords = cat.words.filter(word => word.startsWith(query));
-                if (matchedWords.length > 0) {
-                    matchedCategories++;
-                    const previewText = matchedWords.slice(0, 6).join(', ');
-                    const extraCount = matchedWords.length > 6 ? ` และอื่น ๆ อีก ${matchedWords.length - 6} คำ` : '';
-
-                    htmlContent += `
-                        <div class="p-4 bg-white border border-slate-100 rounded-xl shadow-sm hover:border-indigo-400/50 transition-all">
-                            <div class="flex justify-between items-center mb-1.5">
-                                <h3 class="font-bold text-indigo-900 text-base">📁 หมวด: ${cat.name}</h3>
-                                <span class="text-xs px-2.5 py-0.5 bg-indigo-50 text-indigo-700 rounded-full font-medium">พบ ${matchedWords.length} คำ</span>
-                            </div>
-                            <p class="text-slate-600 text-sm leading-relaxed">${previewText}${extraCount}</p>
-                        </div>
-                    `;
-                }
-            });
-
-            resultCount.innerText = `พบใน ${matchedCategories} หมวดหมู่`;
-
-            if (matchedCategories === 0) {
-                resultsList.innerHTML = '<div class="text-center py-12 text-slate-400 text-sm">ไม่พบคำที่ขึ้นต้นด้วยคำค้นหานี้ในทุกหมวดหมู่</div>';
-                return;
-            }
-
-            resultsList.innerHTML = htmlContent;
-        }
-    </script>
-</body>
-</html>
+        <!-- Results Grid: แสดงผลแนวนอนจากซ้ายไปขวา (มือถือ 1 คอลัมน์, แท็บเล็ต 2, คอม 3-4 คอลัมน์) -->
+        <div id="resultsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="col-span-full text-center py-16 text-slate-400 text
